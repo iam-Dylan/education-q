@@ -16,10 +16,10 @@ pydantic>=2.0.0
 
 # Progress bars and utilities
 tqdm>=4.64.0
+streamlit>=1.28.0
 
 # Google Cloud authentication (for Vertex AI)
-google-auth>=2.0.0
-google-auth-transport-requests>=0.1.0
+google-auth[requests]>=2.0.0
 
 # Optional: For better performance with large datasets
 # pandas[performance]>=1.5.0
@@ -27,4 +27,4 @@ google-auth-transport-requests>=0.1.0
 # Development dependencies (optional)
 # pytest>=7.0.0
 # black>=22.0.0
-# flake8>=5.0.0 
+# flake8>=5.0.0

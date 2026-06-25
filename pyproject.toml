@@ -40,8 +40,8 @@ dependencies = [
     "PyYAML>=6.0",
     "pydantic>=2.0.0",
     "tqdm>=4.64.0",
-    "google-auth>=2.0.0",
-    "google-auth-transport-requests>=0.1.0",
+    "streamlit>=1.28.0",
+    "google-auth[requests]>=2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -155,4 +155,4 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
-] 
+]
