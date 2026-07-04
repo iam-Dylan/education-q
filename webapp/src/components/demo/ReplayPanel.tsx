@@ -8,16 +8,10 @@ const LETTERS = "ABCDEFGHIJ";
 
 export default function ReplayPanel({ case: c }: { case: ReplayCase }) {
   const [visibleCount, setVisibleCount] = useState(0);
-  const [playing, setPlaying] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const finished = visibleCount >= c.dialogue.length;
-
-  useEffect(() => {
-    if (!playing || finished) return;
-    const t = setTimeout(() => setVisibleCount((v) => v + 1), 900);
-    return () => clearTimeout(t);
-  }, [playing, finished]);
+  const nextTurn = c.dialogue[visibleCount];
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -78,10 +72,14 @@ export default function ReplayPanel({ case: c }: { case: ReplayCase }) {
           <div className="text-sm font-semibold">Hội thoại dạy học (5 rounds)</div>
           {!finished ? (
             <button
-              onClick={() => setPlaying((p) => !p)}
+              onClick={() => setVisibleCount((v) => v + 1)}
               className="rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white transition hover:opacity-90"
             >
-              {playing ? "Tạm dừng" : visibleCount === 0 ? "▶ Phát hội thoại" : "▶ Tiếp tục"}
+              {visibleCount === 0
+                ? "Bắt đầu"
+                : nextTurn?.role === "student"
+                ? "🎓 Student trả lời ▶"
+                : "🧑‍🏫 Teacher phản hồi ▶"}
             </button>
           ) : (
             <button
@@ -95,7 +93,7 @@ export default function ReplayPanel({ case: c }: { case: ReplayCase }) {
         <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
           {visibleCount === 0 ? (
             <div className="flex h-full items-center justify-center text-sm text-muted">
-              Bấm &ldquo;Phát hội thoại&rdquo; để xem Teacher và Student trò chuyện từng round.
+              Bấm &ldquo;Bắt đầu&rdquo; rồi &ldquo;Tiếp theo&rdquo; để đi qua từng lượt hội thoại.
             </div>
           ) : null}
           {c.dialogue.slice(0, visibleCount).map((turn, i) => (
@@ -106,11 +104,8 @@ export default function ReplayPanel({ case: c }: { case: ReplayCase }) {
               roundLabel={turn.role === "teacher" ? `Round ${turn.round}` : undefined}
             />
           ))}
-          {playing && visibleCount < c.dialogue.length ? (
-            <div className="text-xs text-muted">...</div>
-          ) : null}
         </div>
-        {!finished && visibleCount > 0 && !playing ? (
+        {!finished && visibleCount > 0 ? (
           <div className="border-t border-card-border p-3 text-center">
             <button
               onClick={() => setVisibleCount(c.dialogue.length)}
