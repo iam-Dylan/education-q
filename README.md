@@ -165,6 +165,30 @@ EducationQ provides both **quantitative** and **qualitative** evaluation:
 - **Local Dataset Support**: Load datasets from local JSON files without network dependency
 - **OpenRouter Provider Routing**: Optionally pin upstream providers (via the `provider` field in agent configs) for experiment reproducibility
 
+## 🌐 Interactive Web Demo
+
+`webapp/` is a Next.js site that lets you experience the framework as a real
+chat, instead of a step-by-step Streamlit replay:
+
+- **Replay mode** (no API key needed) — watch two full teacher-student
+  dialogues transcribed verbatim from the paper's Appendix F case studies.
+- **Live mode** — you play the Student in a free-form chat: bring your own
+  OpenAI/OpenRouter API key and talk to a real Teacher LLM about anything,
+  with it following the paper's formative-assessment teaching style
+  (probing questions, scaffolding, no answers handed out immediately). A free
+  OpenRouter key + a `:free` model works with no cost — see `webapp/README.md`.
+- A `/results` dashboard reproduces the paper's Table 4 (14 teacher models,
+  ALG/PNIR/CSS/UIC ranking).
+
+```bash
+cd webapp
+npm install
+npm run dev
+# open http://localhost:3000
+```
+
+See `webapp/README.md` for details.
+
 ## 🚀 Installation
 
 ```bash
