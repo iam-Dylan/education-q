@@ -1,0 +1,79 @@
+# EducationQ paper-aligned benchmark config.
+# Source paper: EducationQ, Section 3, Section 6, Appendix B-D.
+
+DATASET_TYPE: "mmlu-pro"
+DATASET_NAME: "mmlu_pro_stratified.json"
+OUTPUT_PATH: "output/educationq_mmlupro_stratified/"
+EXPERIMENT_VERSION: "paper_reproduction_local_1"
+
+# Benchmark protocol.
+NUM_INTERACTIONS: 5
+NUM_IF_FEW_SHOTS: 5
+SELECTED_CATEGORIES: []
+SELECTED_QUESTION_ID: []
+FIRST_QUESTIONS_SIZE: null
+QUESTIONS_SAMPLE_SIZE: null
+
+# Local data paths in this workspace.
+GPQA_TEST_DATA_FOLDER_PATH: "dataset/gpqa/dataset/"
+GPQA_VAL_DATA_FILEPATH: "dataset/gpqa/prompts/chain_of_thought_examples.json"
+MMLU_PRO_TEST_DATA_FILEPATH: "dataset/mmlu-pro/mmlu_pro_stratified.json"
+AGIEVAL_TEST_DATA_FOLDER_PATH: "dataset/AGIEval/data/v1_1/"
+AGIEVAL_VAL_DATA_FILEPATH: "dataset/AGIEval/data/few_shot_prompts.csv"
+AGIEVAL_DATASET_NAMES: ["aqua-rat"]
+
+# Appendix B: quality control / execution defaults.
+API_CALL_MAX_RETRIES: 5
+API_CALL_RETRY_DELAY: 10
+API_CALL_MAX_RETRY_DELAY: 320
+PARALLEL_TASKS: 5
+LOGGING_LEVEL: "INFO"
+
+TEACHER_CONFIGS:
+  - name: "Teacher-llama31-70b-instruct"
+    model: "meta-llama/Meta-Llama-3.1-70B-Instruct"
+    api_key: "your_api_key"
+    base_url: "your_api_url"
+    temperature: 0.0
+    max_tokens: 1024
+    use_few_shot: false
+    recommended_question_token_limit: 150
+    recommended_education_theory: null
+    max_tokens_rerun_threshold_percentage: 0.8
+    question_retries: 5
+
+  - name: "Teacher-gemini-pro-15-002"
+    model: "google/gemini-1.5-pro-002"
+    api_key: "your_api_key"
+    base_url: "your_api_url"
+    temperature: 0.0
+    max_tokens: 1024
+    use_few_shot: false
+    recommended_question_token_limit: 150
+    recommended_education_theory: null
+    max_tokens_rerun_threshold_percentage: 0.8
+    question_retries: 5
+
+STUDENT_CONFIGS:
+  - name: "Student-llama31-70b-instruct"
+    model: "meta-llama/Meta-Llama-3.1-70B-Instruct"
+    api_key: "your_api_key"
+    base_url: "your_api_url"
+    temperature: 0.0
+    answer_max_tokens: 1024
+    test_max_tokens: 2048
+    use_few_shot: false
+    include_pretest_info: true
+    recommended_answer_token_limit: 150
+    recommended_test_token_limit: 1024
+    max_tokens_rerun_threshold_percentage: 0.8
+    answer_retries: 5
+
+EVALUATOR_CONFIG:
+  name: "Evaluator-gpt4o-mini"
+  model: "openai/gpt-4o-mini"
+  api_key: "your_api_key"
+  base_url: "your_api_url"
+  temperature: 0.0
+  max_tokens: 4096
+  use_few_shot: false
